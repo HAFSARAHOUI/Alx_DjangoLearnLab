@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views.generic import DetailView
 from django.views.generic.detail import DetailView
 from django.contrib.auth.views import LoginView, LogoutView
+from django.shortcuts import  redirect
 from .models import Book
 from .models import Library
 # Create your views here.
@@ -9,17 +10,21 @@ from .models import Library
 
 class CustomLoginView(LoginView):
     template_name = 'relationship_app/login.html'
+
+# عرض تسجيل الخروج
 class CustomLogoutView(LogoutView):
     template_name = 'relationship_app/logout.html'
 
+# عرض التسجيل
 def register(request):
     if request.method == 'POST':
-        form = UserCreationForm (request.POST)
+        form = UserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect ('login')  
+            user = form.save()
+            login(request, user)  
+            return redirect('login') 
     else:
-        form = UserCreationForm()  
+        form = UserCreationForm() 
     return render(request, 'relationship_app/register.html', {'form': form})
 
 def list_books(request):
