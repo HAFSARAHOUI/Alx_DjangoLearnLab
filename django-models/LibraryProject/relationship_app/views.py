@@ -23,10 +23,11 @@ def register(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)  
+            login(request, user)
             return redirect('login') 
     else:
-        form = UserCreationForm() 
+        form = UserCreationForm()
+
     return render(request, 'relationship_app/register.html', {'form': form})
 
 def list_books(request):
