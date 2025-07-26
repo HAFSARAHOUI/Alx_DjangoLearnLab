@@ -11,11 +11,28 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Book
 
+from django.contrib.auth.decorators import permission_required
+
 
 from .forms import BookForm 
 
   
+@permission_required('relationship_app.can_add_book', raise_exception=True)
+def add_book(request):
+    # Logic for adding a book
+    return render(request, 'add_book.html')
 
+# View for editing a book (only accessible to users with 'can_change_book' permission)
+@permission_required('relationship_app.can_change_book', raise_exception=True)
+def edit_book(request, book_id):
+    # Logic for editing a book
+    return render(request, 'edit_book.html')
+
+# View for deleting a book (only accessible to users with 'can_delete_book' permission)
+@permission_required('relationship_app.can_delete_book', raise_exception=True)
+def delete_book(request, book_id):
+    # Logic for deleting a book
+    return render(request, 'delete_book.html')
 @login_required
 @permission_required('relationship_app.can_delete_book', raise_exception=True)
 def delete_book(request, pk):
