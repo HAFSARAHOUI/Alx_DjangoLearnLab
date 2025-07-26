@@ -1,14 +1,26 @@
 from django.shortcuts import render
 from django.views.generic import DetailView
 from django.views.generic.detail import DetailView
+from django.contrib.auth.views import LoginView, LogoutView
 from .models import Book
 from .models import Library
 # Create your views here.
 # relationship_app/views.py
 
+class CustomLoginView(LoginView):
+    template_name = 'relationship_app/login.html'
+class CustomLogoutView(LogoutView):
+    template_name = 'relationship_app/logout.html'
 
-
-   
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm (request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect ('login')  
+    else:
+        form = UserCreationForm()  
+    return render(request, 'relationship_app/register.html', {'form': form})
 
 def list_books(request):
     books = Book.objects.all()
