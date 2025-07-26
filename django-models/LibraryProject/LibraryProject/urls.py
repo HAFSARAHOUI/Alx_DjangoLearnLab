@@ -24,4 +24,5 @@ urlpatterns = [
     path('auth/', include('relationship_app.urls')),
     path('', list_books, name='home'),
     path('books/', list_books, name='list_books'),
+    path('books/', include('relationship_app.urls')),
 ]
